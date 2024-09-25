@@ -25,7 +25,7 @@ services:
     restart: always
     deploy: 
       mode: replicated
-      replicas: 8 
+      replicas: 2
     build:
       dockerfile: Dockerfile
       context: ./
