@@ -28,7 +28,7 @@ services:
       replicas: 8 
     build:
       dockerfile: Dockerfile
-      context: ./analytics
+      context: ./
     networks: 
       - mainnetwork
 
