@@ -43,8 +43,8 @@ services:
     networks:
       - mainnetwork
     volumes:
-      - /pg/data:/var/lib/postgresql/data/pgdata
-      - /pg/pg_wal:/wal
+      - ./pg/data:/var/lib/postgresql/data/pgdata
+      - ./pg/pg_wal:/wal
       - ./postgresql.conf:/etc/postgresql/postgresql.conf
 
 volumes:

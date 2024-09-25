@@ -19,7 +19,7 @@ carbonclicks.io {
                 Access-Control-Allow-Headers "Content-Type"
         }
         handle {
-                reverse_proxy ca_analytics:3000
+                reverse_proxy carbonclicks_app:3000
         }
 }
 
