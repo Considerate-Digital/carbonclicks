@@ -1,0 +1,127 @@
+onmessage = async (e) => {
+    let events = e.data.events;
+    let selectedPageUrl = e.data.selectedPageUrl;
+
+    let pageJourney = [];
+
+    async function mode(arr){
+    return arr.sort((a,b) =>
+          arr.filter(v => v===a).length
+        - arr.filter(v => v===b).length
+    ).pop();
+	}
+
+	async function removeItems(arrayOfItems, item) {
+		let newArr = [];
+		await arrayOfItems.forEach( i => {
+			if (i != item) {
+				
+				newArr.push(i);
+			};
+		});
+		return newArr;
+	}
+   async function createEventJourney (events, url) {
+		//find views with this url
+		let eventsWithUrl = events.filter( e => e.url == url);
+		let users = [... new Set(eventsWithUrl.map( e => e.userId))];
+
+		async function findMostCommonNextEvent() {
+			
+			//most common event type
+			let eventTypes = eventsWithUrl.map( e => e.type);
+			
+			//get most common event type 
+			let mostCommonEventType = await mode(eventTypes);
+	
+			//important to use this array as basis after this point
+			let eventsWithUrlAndType = eventsWithUrl.filter( e => e.type == mostCommonEventType);
+
+			//get all tags
+			let eventTags = eventsWithUrlAndType.map( e => e.targetTag);
+
+			//get most common event tag
+			let mostCommonEventTag = await mode(eventTags);
+		
+			//get most common id
+			let eventIds = eventsWithUrlAndType.map( e => e.targetId);
+			let mostCommonEventId = await mode(eventIds);
+			
+			//get most common classname
+			let eventClasses = eventsWithUrlAndType.map(e => e.targetClass);
+			let mostCommonEventClass = await mode(eventClasses);
+
+			//get most common text
+			let eventTexts = eventsWithUrlAndType.map(e => e.targetText);
+			let mostCommontEventText = await mode(eventTexts);
+
+			//work out the most common event
+			let mostCommonEvent = eventsWithUrl.filter( e => {
+				if (e.targetTag == mostCommonEventTag &&
+					e.targetId == mostCommonEventId &&
+					e.targetClass == mostCommonEventClass &&
+					e.targetText == mostCommontEventText) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+			let collectedUsers = [];
+			let mostCommonEventsArr = [];
+			
+			if (mostCommonEvent.length && mostCommonEvent.length > 0) {
+				//array of common events event collection
+				mostCommonEventsArr = mostCommonEvent;
+				mostCommonEvent = mostCommonEvent.filter( e => users.includes(e.userId));
+				collectedUsers = mostCommonEvent.map( e => e.userId);
+				if (mostCommonEvent.length && mostCommonEvent.length > 0) {
+
+					mostCommonEvent = mostCommonEvent[0];
+					
+					mostCommonEventsArr.push(mostCommonEvent);
+				}
+			} else if (users.includes(mostCommonEvent.userId)) {
+				
+				//single event to log
+				collectedUsers.push(mostCommonEvent.userId);
+			} else {
+				//no user -- go no further
+				
+				
+				
+				return
+			}
+			
+			if (pageJourney.length == 0) {
+				pageJourney.push(mostCommonEvent);		
+			} else {
+				if (new Date(pageJourney[pageJourney.length - 1].time).valueOf() < new Date(mostCommonEvent.time).valueOf()) {
+					pageJourney.push(mostCommonEvent);
+				} 
+			}
+			//remove the event(s) from the array
+			//use the indexs
+			
+			mostCommonEventsArr.forEach( e => {
+				let index = eventsWithUrl.indexOf(e);
+				eventsWithUrl.splice(index, 1);
+			});
+
+			
+			//do everything again
+			if (eventsWithUrl.length > 0) {
+				users = [... new Set(collectedUsers)];
+				await findMostCommonNextEvent();	
+			}
+		}
+		return await findMostCommonNextEvent();
+
+
+	}
+    
+    await createEventJourney(events, selectedPageUrl);
+
+    postMessage(pageJourney);
+};
+
+export default {};

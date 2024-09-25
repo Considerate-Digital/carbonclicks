@@ -1,0 +1,25 @@
+carbonclicks.io {
+        @cors {
+                method OPTIONS
+                path /public/api/*
+        }
+
+        handle @cors {
+                header {
+                        Access-Control-Allow-Method "POST, GET, OPTIONS"
+                        Access-Control-Allow-Origin *
+                        Access-Control-Allow-Headers "Content-Type"
+                }
+                respond @cors 204
+        }
+
+        header /public/api/* {
+                Access-Control-Allow-Method "POST, GET, OPTIONS"
+                Access-Control-Allow-Origin *
+                Access-Control-Allow-Headers "Content-Type"
+        }
+        handle {
+                reverse_proxy ca_analytics:3000
+        }
+}
+

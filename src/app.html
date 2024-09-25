@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <link rel="icon" href="%sveltekit.assets%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:site_name" content="CarbonClicks" />
+
+    <meta property="og:type" content="website" />
+    <!--  Non-Essential, But Required for Analytics -->
+    <!-- <meta property="fb:app_id" content="your_app_id" />
+	<meta name="twitter:site" content="@website-username">
+	test with https://www.opengraphcheck.com/ -->
+
+    <link
+      rel="preload stylesheet"
+      as="font"
+      href="%sveltekit.assets%/fonts/InstrumentSansVariable.woff2"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload stylesheet"
+      as="font"
+      href="%sveltekit.assets%/fonts/AlegreyaVariable.woff2"
+      type="font/woff"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="%sveltekit.assets%/app.css" />
+    %sveltekit.head%
+  </head>
+
+  <body>
+    <div>%sveltekit.body%</div>
+  </body>
+</html>

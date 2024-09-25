@@ -1,0 +1,147 @@
+
+import { objectToBuffer, bufferToObject } from "$lib/utils/buffer";
+onmessage = async (e) => {
+  let views = bufferToObject(e.data); // views
+	//
+	let return_data = {
+		mode_journey: [],
+		country_graph_dataset: {
+			nodes: undefined,
+			links: undefined
+		}
+	}
+
+	let user_ids = Array.from(new Set(views.map( v => v.id)));
+	let urls = Array.from(new Set(views.map( v => v.url)));
+	
+	let user_journeys = [];
+	let max_gap = (1000 * 60 * 10) //10 mins		
+	for (let i = 0; user_ids.length > i; i++) {
+		let id = user_ids[i];
+		let visited_urls = views.filter( v => v.id == id);
+
+		// put the urls in order
+		visited_urls.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+		let previous_url;
+		let mini_journey = [];
+		for (let j = 0; visited_urls.length > j; j++) {
+			let url = visited_urls[j];
+			if (!previous_url || (new Date(previous_url.date).valueOf() + max_gap) >= new Date(url.date).valueOf()) {
+				mini_journey.push(url);	
+			} else {
+				user_journeys.push(mini_journey);
+				mini_journey = [];
+			}
+
+			if ( (j+1) == visited_urls.length && mini_journey.length > 0) {
+				user_journeys.push(mini_journey);
+				mini_journey = [];
+			}
+
+			previous_url = url;
+		}
+	}
+
+	// create node list
+	let nodes = [];
+	for (let i = 0; urls.length > i; i++) {
+		let url = urls[i];
+		let node = {
+			id: url,
+			group: i + 1
+		}
+		nodes.push(node);
+	}
+
+	//create links list
+	let links = [];
+	for (let i = 0; user_journeys.length > i; i++) {
+		let journey = user_journeys[i];
+		let previous;
+		for (let j = 0; journey.length > j; j++) {
+			let url = journey[j];
+			if (!previous) {	
+				// do nothing
+			} else {
+				let link = {
+						source: previous.url,
+						target: url.url,
+						value: 1
+					}
+
+					// check to see if increasing the value is necessary
+				let found = links.find( l => l.source == link.source && l.target == link.target );
+				if (found) {
+					//get index and increase the value
+					let index = links.indexOf(found);
+					links[index].value += 1;
+				} else {
+					links.push(link);
+				}
+			}
+			previous = url;
+		}
+	}
+	return_data.country_graph_dataset.nodes = nodes;
+	return_data.country_graph_dataset.links = links;
+	return_data = objectToBuffer(return_data);
+
+	/*
+	// section for calculating most common journey
+	let viewJourney = [];
+	async function mode(arr){
+    return arr.sort((a,b) =>
+          arr.filter(v => v===a).length
+        - arr.filter(v => v===b).length
+    ).pop();
+	}
+
+	async function removeItems(arrayOfItems, item) {
+		let newArr = [];
+		await arrayOfItems.forEach( i => {
+			if (i != item) {
+				
+				newArr.push(i);
+			};
+		});
+		return newArr;
+	}
+
+  //need to check it is the same user
+	async function sortViews(views) {
+		viewJourney = [];
+		let urls = views.map( e => e.url);
+		let urlsLength = urls.length;
+    let userMap = views.map( e => e.userId); 
+    let filteredViews = views;
+
+		async function getJourney() {
+			let mostCommonUrl = await mode(urls);
+			if (!mostCommonUrl) { return };
+      filteredViews = filteredViews.filter( v => (v.url != mostCommonUrl && userMap.includes(v.userId)));
+      if (filteredViews.length === 0) { return };
+      userMap = filteredViews.map( v => v.userId);
+      
+
+      viewJourney.push(mostCommonUrl);	
+
+			urls = await removeItems(urls, mostCommonUrl);
+    
+      
+			if (urlsLength === urls.length) {
+			} else {
+				urlsLength = urls.length;
+				await getJourney();	
+			}
+		}
+		return await getJourney();
+	}
+    await sortViews(views);
+	
+		return_data.mode_journey = viewJourney;
+		*/
+
+    postMessage(return_data);
+};
+
+export default {};

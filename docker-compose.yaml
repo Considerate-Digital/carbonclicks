@@ -1,0 +1,58 @@
+version: '3.5'
+
+networks:
+  mainnetwork:
+    name: mainnetwork
+    driver: bridge
+
+services:
+  caddy:
+    restart: always
+    container_name: con_caddy
+    build:
+      dockerfile: Dockerfile
+      context: ./caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy/caddy_data:/data
+    networks:
+      - mainnetwork
+        
+  carbonclicks_app:
+    restart: always
+    deploy: 
+      mode: replicated
+      replicas: 8 
+    build:
+      dockerfile: Dockerfile
+      context: ./analytics
+    networks: 
+      - mainnetwork
+
+  carbonclicks_database:
+    # Do not change this image without having a full migration plan ready 
+    image: postgres:16.2-alpine3.19
+    restart: always
+    # set shared memory limit when using docker-compose
+    # shm_size: 128mb
+    environment:
+      env_file: "postgress.env"
+    networks:
+      - mainnetwork
+    volumes:
+      - /pg/data:/var/lib/postgresql/data/pgdata
+      - /pg/pg_wal:/wal
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+
+volumes:
+  carbonclicks_database:
+    external: true
+  caddy:
+    external: true
+  
+
+
+
