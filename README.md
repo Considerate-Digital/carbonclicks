@@ -43,22 +43,20 @@ VITE_MAIL_FROM_ADDRESS = "youremail@yourdomain.com"
 VITE_MAIL_TO_ADDRESS = "youremail@yourdomain.com"
 VITE_MAIL_FROM_NAME = "Your Name"
 VITE_DOMAIN_ADDRESS = "http://yourdomain.com"
+
+# Postgres environmental variables
+POSTGRES_PASSWORD="pick_a_password"
+PGDATA="./pg/data"
+PGWAL="./pg/wal"
+
 ```
 Note that the domain address should be the domain address where you are hosting CarbonClicks.
 
-4. Create a file `postgres.env` in the root directory.
-
-5. Include the following environmental variables in the `postgres.env` file:
-```
-POSTGRES_PASSWORD="admin"
-PGDATA="/var/lib/postgresql/data/pgdata"
-POSTGRES_INITDB_WALDIR="/wal"
-```
-6. Build the container.
+4. Build the container.
 ``` 
 docker compose build
 ```
-7. Start the containers.
+5. Start the containers.
 ``` 
 docker compose up -d
 ```
