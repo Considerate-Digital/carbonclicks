@@ -39,7 +39,7 @@ services:
     # set shared memory limit when using docker-compose
     # shm_size: 128mb
     environment:
-      env_file: "postgress.env"
+      env_file: "postgres.env"
     networks:
       - mainnetwork
     volumes:
