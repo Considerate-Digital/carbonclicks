@@ -20,19 +20,19 @@
   ("use strict");
   console.log("CarbonClicks initialised");
 
-  let considerateAnalytics = {};
+  let carbonClicks = {};
   //start timer -- necessary for spas -- compare with document timeline too
-  considerateAnalytics.length = 0; // in millisecs
+  carbonClicks.length = 0; // in millisecs
   setInterval(() => {
-    considerateAnalytics.length += 200;
+    carbonClicks.length += 200;
   }, 200);
 
-  considerateAnalytics.resources = [];
-  considerateAnalytics.events = [];
-  considerateAnalytics.totalTransfer = 0;
-  considerateAnalytics.referrer = document.referrer;
-  considerateAnalytics.urlHash = "";
-  considerateAnalytics.green = false;
+  carbonClicks.resources = [];
+  carbonClicks.events = [];
+  carbonClicks.totalTransfer = 0;
+  carbonClicks.referrer = document.referrer;
+  carbonClicks.urlHash = "";
+  carbonClicks.green = false;
 
   //set the performance observer
   let performanceObserver = new PerformanceObserver((list) => {
@@ -74,18 +74,18 @@
           resource.optimised_size = 200 * 1024;
           break;
       }
-      considerateAnalytics.resources.push(resource);
-      considerateAnalytics.totalTransfer += resource.ts;
+      carbonClicks.resources.push(resource);
+      carbonClicks.totalTransfer += resource.ts;
     });
   });
   performanceObserver.observe({ type: "resource", buffered: true });
 
   //set endpoint from data attribute
-  considerateAnalytics.endpoint =
+  carbonClicks.endpoint =
     document
-      .querySelector("[data-considerate-analytics-endpoint]")
-      .getAttribute("data-considerate-analytics-endpoint") ??
-    "https://analytics.considerate.digital/public/api/analytics";
+      .querySelector("[data-carbon-clicks-endpoint]")
+      .getAttribute("data-carbon-clicks-endpoint") ??
+    "https://carbonclicks.io/public/api/analytics";
 
   async function generate_hash(ip) {
     let userAgent = Navigator.userAgent;
@@ -108,14 +108,14 @@
         city = res.city;
         region = res.region;
         country_code3 = res.country_code3;
-        considerateAnalytics.country = country_code3;
+        carbonClicks.country = country_code3;
         //generate hash from ip and the userAgent
-        considerateAnalytics.id = await generate_hash(ip);
+        carbonClicks.id = await generate_hash(ip);
       }
     });
 
   // do we need the url hash -- this is the url and the userAgent in one hash
-  //considerateAnalytics.urlHash = await generate_hash(window.location.href);
+  //carbonClicks.urlHash = await generate_hash(window.location.href);
 
   let domain = window.location.href;
   if (domain.startsWith("http")) {
@@ -129,7 +129,7 @@
     .then(async (res) => (res.ok ? await res.json() : false))
     .then((res) => {
       if (res) {
-        considerateAnalytics.green = res?.green ? res.green : false;
+        carbonClicks.green = res?.green ? res.green : false;
       }
     });
 
@@ -156,17 +156,17 @@
         page_x: Math.round(e.pageX),
         page_y: Math.round(e.pageY),
       };
-      considerateAnalytics.events.push(event);
+      carbonClicks.events.push(event);
     } catch (err) {
       console.log(err);
     }
   }
 
   //set current href
-  considerateAnalytics.lastHref = window.location.href;
+  carbonClicks.lastHref = window.location.href;
 
   let dataSent = false;
-  considerateAnalytics.scroll = false;
+  carbonClicks.scroll = false;
 
   //set event listeners
   document.addEventListener("visibilitychange", function () {
@@ -174,7 +174,7 @@
       (document.visibilityState === "hidden" || document.hidden == true) &&
       dataSent === false
     ) {
-      considerateAnalytics.send_data();
+      carbonClicks.send_data();
       dataSent = true;
     } else if (dataSent === true) {
       dataSent = false;
@@ -182,7 +182,7 @@
   });
   document.addEventListener("beforeunload", function () {
     if (dataSent === false) {
-      considerateAnalytics.send_data();
+      carbonClicks.send_data();
       dataSent = true;
     }
   });
@@ -192,16 +192,16 @@
     //check if the href has changed
     addEvent(e);
     setTimeout(() => {
-      if (considerateAnalytics.lastHref != window.location.href) {
+      if (carbonClicks.lastHref != window.location.href) {
         //console.log("NA: user has navigated");
         //user may have navigated
-        considerateAnalytics.send_data();
+        carbonClicks.send_data();
 
         //reset the process
         //console.log("NA: reset analytics");
         dataSent = false;
-        considerateAnalytics.length = 0;
-        considerateAnalytics.lastHref = window.location.href;
+        carbonClicks.length = 0;
+        carbonClicks.lastHref = window.location.href;
       }
     }, 500);
   }
@@ -223,15 +223,15 @@
   function logScroll(e) {
     //console.log("NA: scroll true");
     addEvent(e);
-    considerateAnalytics.scroll = true;
+    carbonClicks.scroll = true;
   }
   document.addEventListener("scroll", logScroll);
 
-  // get account id from data-considerateAnalytics.
-  considerateAnalytics.accountId =
+  // get account id from data-carbonClicks.
+  carbonClicks.accountId =
     document
-      .querySelector("[data-considerate-analytics-id]")
-      .getAttribute("data-considerate-analytics-id") ?? "";
+      .querySelector("[data-carbon-clicks-id]")
+      .getAttribute("data-carbon-clicks-id") ?? "";
 
   //
   // Get current path.
@@ -246,34 +246,34 @@
   };
 
   // get title?
-  considerateAnalytics.title = document.title ?? "";
+  carbonClicks.title = document.title ?? "";
 
   function get_data() {
     let [navs] = performance.getEntriesByType("navigation");
     let data = {
-      id: considerateAnalytics.id,
-      account_id: considerateAnalytics.accountId,
+      id: carbonClicks.id,
+      account_id: carbonClicks.accountId,
       date: new Date().toISOString(),
       url: window.location.href,
-      url_hash: considerateAnalytics.urlHash,
+      url_hash: carbonClicks.urlHash,
       path: get_path(),
-      referrer: considerateAnalytics.referrer,
-      title: considerateAnalytics.title,
-      events: considerateAnalytics.events,
+      referrer: carbonClicks.referrer,
+      title: carbonClicks.title,
+      events: carbonClicks.events,
       screen_width: Math.round(window.screen.width),
       screen_height: Math.round(window.screen.height),
       device_pixel_ratio: window.devicePixelRatio || 1,
-      session_length: considerateAnalytics.length,
-      scroll: considerateAnalytics.scroll,
+      session_length: carbonClicks.length,
+      scroll: carbonClicks.scroll,
       bot: is_bot(),
       query: location.search ? location.search : "",
-      transfer: Math.round(considerateAnalytics.totalTransfer),
-      country: considerateAnalytics.country,
+      transfer: Math.round(carbonClicks.totalTransfer),
+      country: carbonClicks.country,
       dom_interactive: Math.round(navs.domInteractive),
       dom_complete: Math.round(navs.domComplete),
       dom_load_event_end: Math.round(navs.loadEventEnd),
-      resources: considerateAnalytics.resources,
-      green: considerateAnalytics.green,
+      resources: carbonClicks.resources,
+      green: carbonClicks.green,
       user_agent: window.navigator.userAgent,
     };
     return JSON.stringify(data);
@@ -295,17 +295,17 @@
   }
 
   // Get a query parameter.
-  considerateAnalytics.get_query = function (name) {
+  carbonClicks.get_query = function (name) {
     let s = location.search.substr(1).split("&");
     for (let i = 0; i < s.length; i++)
       if (s[i].toLowerCase().indexOf(name.toLowerCase() + "=") === 0)
         return s[i].substr(name.length + 1);
   };
 
-  considerateAnalytics.send_data = function () {
+  carbonClicks.send_data = function () {
     //this is when the analytics data is sent
     let data = get_data();
-    let url = considerateAnalytics.endpoint;
+    let url = carbonClicks.endpoint;
 
     fetch(url, {
       method: "POST",
@@ -317,9 +317,9 @@
     });
 
     //reset the counter
-    considerateAnalytics.length = 0.0;
+    carbonClicks.length = 0.0;
 
     //clear events
-    considerateAnalytics.events = [];
+    carbonClicks.events = [];
   };
 })();
