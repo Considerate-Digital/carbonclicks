@@ -188,24 +188,21 @@
   });
 
   function check_clicks(e) {
-    //console.log("NA: analytics click");
     //check if the href has changed
     addEvent(e);
     setTimeout(() => {
       if (carbonClicks.lastHref != window.location.href) {
-        //console.log("NA: user has navigated");
         //user may have navigated
         carbonClicks.send_data();
 
         //reset the process
-        //console.log("NA: reset analytics");
         dataSent = false;
         carbonClicks.length = 0;
         carbonClicks.lastHref = window.location.href;
       }
     }, 500);
   }
-  document.addEventListener("click", checkClicks);
+  document.addEventListener("click", check_clicks);
 
   let currentMouseoverTarget = "";
   document.addEventListener("mouseover", function (e) {
@@ -221,7 +218,6 @@
   });
 
   function logScroll(e) {
-    //console.log("NA: scroll true");
     addEvent(e);
     carbonClicks.scroll = true;
   }
