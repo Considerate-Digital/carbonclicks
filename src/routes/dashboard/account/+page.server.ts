@@ -18,7 +18,7 @@ const delete_account_schema = z.object({
 export async function load({ parent }) {
   //load account data
   let data = await parent();
-  if (import.meta.env.VITE_DOMAIN_ADDRESS === "http://localhost:3001") {
+  if (import.meta.env.VITE_DOMAIN_ADDRESS === "http://localhost:5173") {
     console.log("domain is local");
     data["user_id"] = "testdemo";
   }

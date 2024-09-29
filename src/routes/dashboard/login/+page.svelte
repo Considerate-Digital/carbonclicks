@@ -27,7 +27,7 @@
 	{#if $message} 
 		<div class="text-container">
 		<h2 class="login-title">Check your email</h2>
-		{#if import.meta.env.VITE_DOMAIN_ADDRESS === "http://localhost:3001"}
+		{#if import.meta.env.VITE_DOMAIN_ADDRESS === "http://localhost:5173"}
 			<p class="login-token">{$message}</p>
 		{/if}
 
