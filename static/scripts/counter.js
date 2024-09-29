@@ -18,7 +18,7 @@
   };
 
   ("use strict");
-  console.log("NA: counting");
+  console.log("CarbonClicks initialised");
 
   let considerateAnalytics = {};
   //start timer -- necessary for spas -- compare with document timeline too
