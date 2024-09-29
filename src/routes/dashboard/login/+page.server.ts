@@ -56,6 +56,7 @@ export const actions = {
       let expiry_time = new Date();
       expiry_time.setMinutes(expiry_time.getMinutes() + 15);
 
+
       // if user exists, then send the email
       if (query && query?.rows.length > 0) {
         console.log("user exists");

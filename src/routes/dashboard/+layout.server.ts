@@ -72,6 +72,7 @@ export async function load({ locals }) {
       if (data_query.rows[0]) {
         account = data_query.rows[0];
 
+
         if (import.meta.env.VITE_DOMAIN_ADDRESS == "http://localhost:5173") {
           console.log("using localhost data");
           account["id"] = "demo";
