@@ -27,17 +27,13 @@
 	{#if $message} 
 		<div class="text-container">
 		<h2 class="login-title">Check your email</h2>
-		{#if import.meta.env.VITE_DOMAIN_ADDRESS === "http://localhost:3001"}
+		{#if import.meta.env.VITE_DOMAIN_ADDRESS === "http://localhost:5173"}
 			<p class="login-token">{$message}</p>
 		{/if}
 
-			<p>Please check your email and click the button or follow the link enclosed to access your CarbonClicks account.</p>
-			<p>
-				The insights you'll receive on where to improve come from Considerate Digital's advanced comparative method. We have researched efficient websites extensively in order to benchmark performance with confidence.
-			</p>
-			<p>
-				Using this knowledge, we model your website's 'best case' carbon emissions on a greener version of your existing site. This gives you an indication of whether or not carbon reduction is possible, and at what scale.
-			</p>
+		<p>
+			Please check your email and click the button or follow the link enclosed to access your CarbonClicks account.
+		</p>
 	</div>
 
 	{:else}
