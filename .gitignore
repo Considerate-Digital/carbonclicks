@@ -17,3 +17,7 @@ pnpm-lock*
 # test files
 /test-results
 /playwright-report
+
+
+# other
+push.sh

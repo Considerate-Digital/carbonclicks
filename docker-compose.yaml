@@ -23,6 +23,7 @@ services:
         
   carbonclicks_app:
     restart: always
+    container_name: con_carbonclicks_app
     deploy: 
       mode: replicated
       replicas: 2
@@ -36,12 +37,15 @@ services:
     # Do not change this image without having a full migration plan ready 
     image: postgres:16.2-alpine3.19
     restart: always
+    container_name: can_carbonclicks_database
     # set shared memory limit when using docker-compose
     # shm_size: 128mb
     environment:
       env_file: 
         - .env
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_INITDB_WALDIR: /wal
     networks:
       - mainnetwork
     volumes:

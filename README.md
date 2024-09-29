@@ -22,6 +22,7 @@ The instructions provided here have only been tested on linux systems.
 #### Requirements
 - Docker
 - A fresh server or VPS 
+- Gmail account
 
 
 #### Process
@@ -37,12 +38,19 @@ VITE_DB_USER="postgres"
 VITE_DB_PASSWORD="pick_a_password"
 VITE_DB_HOST="localhost"
 VITE_DB_PORT="5432"
+
+# Email environmental variables
 VITE_MAIL_USERNAME = "youremail@yourdomain.com"
 VITE_MAIL_PASSWORD = "use_your_password"
 VITE_MAIL_FROM_ADDRESS = "youremail@yourdomain.com"
 VITE_MAIL_TO_ADDRESS = "youremail@yourdomain.com"
 VITE_MAIL_FROM_NAME = "Your Name"
 VITE_DOMAIN_ADDRESS = "http://yourdomain.com"
+
+# Google mail environmental variables
+VITE_OAUTH_CLIENTID = "your_oauth_client_id"
+VITE_OAUTH_CLIENT_SECRET ="your_oauth_client_secret"
+VITE_OAUTH_REFRESH_TOKEN ="your_oauth_refresh_token"
 
 # Postgres environmental variables
 POSTGRES_PASSWORD="pick_a_password"
@@ -51,6 +59,7 @@ PGWAL="./pg/wal"
 
 ```
 Note that the domain address should be the domain address where you are hosting CarbonClicks.
+To obtain the oauth client id, client secret and refresh token from google, follow [this guide](https://stackoverflow.com/questions/24098461/nodemailer-gmail-what-exactly-is-a-refresh-token-and-how-do-i-get-one).
 
 4. Build the container.
 ``` 
@@ -60,6 +69,12 @@ docker compose build
 ``` 
 docker compose up -d
 ```
+
+6. Create the database tables
+```
+cat ./init.sql | docker exec -i con_carbonclicks_database psql -U postgres -d postgres
+```
+
 
 ## Why open source?
 We chose the **GNU Affero General Public License v3 (AGPLv3)** because we believe that measuring website carbon emissions is a utility that should be available to every website owner and operator. By opting for the AGPLv3, we have made sure that any future development and distribution of CarbonClicks will be available to everyone. The internet uses a huge amount of energy each year and CarbonClicks is a tool that can be used to aid developers and website owners to lower their digital emissions.
@@ -78,6 +93,7 @@ You can report bugs by submitting a new issue. The more detail you can provide i
 ### Future Development
 Here, in no particular order, are a list of future developments we'd like to undertake:
 - Add further insights to the dashboard (ideas welcome!)
+- Remove the reliance on Google Mail for the login and email provision.
 - Replace the incoming data API with Actix (Rust)
 - Replace the worker scripts with WASM using Rust wasm-bindgen.
 
