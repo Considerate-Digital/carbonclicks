@@ -121,7 +121,7 @@
         }
 
     let visits = {
-            labels: sorted_data.pageArr.map( row => row.title ? row.title : url_shortener(row.path, 80) ), 
+            labels: sorted_data.pageArr.map( row => row.path ? url_shortener(row.path, 80) : "Unknown" ), 
             backgroundColor: "rgba(225, 225, 225, 1)",
             datasets: [
                 {
