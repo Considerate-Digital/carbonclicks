@@ -70,7 +70,8 @@ onmessage = async (e) => {
     });
   }
 
-  //
+  // set test for if there are no rows or events
+
   /*gradient*/
   let PC = 50;
   /*figures*/
@@ -99,7 +100,7 @@ onmessage = async (e) => {
 
   for (let i = 0; data.views.length > i; i++) {
     let row = data.views[i];
-    let rowCarbon: number = await getUserCarbon(row);
+    let rowCarbon: number = await getUserCarbon(row) ?? 0;
     totalCarbonCount += rowCarbon;
     /* figures calculations */
     //co2num can be replaced by totalCarbonCount
@@ -112,8 +113,6 @@ onmessage = async (e) => {
     let newRowTime = new Date(
       rowTime.setMinutes(rowTime.getMinutes() - timeZoneOffsetMinutes),
     );
-    //console.log(newRowTime);
-    //console.log(timeZoneOffsetMinutes);
 
     if (newRowTime.valueOf() > fiveMinutesAgo.valueOf()) {
       if (!uniqueUsersInLastFiveMins.includes(row.id)) {

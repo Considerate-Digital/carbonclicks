@@ -40,17 +40,17 @@ VITE_DB_HOST="localhost"
 VITE_DB_PORT="5432"
 
 # Email environmental variables
-VITE_MAIL_USERNAME = "youremail@yourdomain.com"
-VITE_MAIL_PASSWORD = "use_your_password"
-VITE_MAIL_FROM_ADDRESS = "youremail@yourdomain.com"
-VITE_MAIL_TO_ADDRESS = "youremail@yourdomain.com"
-VITE_MAIL_FROM_NAME = "Your Name"
-VITE_DOMAIN_ADDRESS = "http://yourdomain.com"
+VITE_MAIL_USERNAME="youremail@yourdomain.com"
+VITE_MAIL_PASSWORD="use_your_password"
+VITE_MAIL_FROM_ADDRESS="youremail@yourdomain.com"
+VITE_MAIL_TO_ADDRESS="youremail@yourdomain.com"
+VITE_MAIL_FROM_NAME="Your Name"
+VITE_DOMAIN_ADDRESS="http://yourdomain.com"
 
 # Google mail environmental variables
-VITE_OAUTH_CLIENTID = "your_oauth_client_id"
-VITE_OAUTH_CLIENT_SECRET ="your_oauth_client_secret"
-VITE_OAUTH_REFRESH_TOKEN ="your_oauth_refresh_token"
+VITE_OAUTH_CLIENTID="your_oauth_client_id"
+VITE_OAUTH_CLIENT_SECRET="your_oauth_client_secret"
+VITE_OAUTH_REFRESH_TOKEN="your_oauth_refresh_token"
 
 # Postgres environmental variables
 POSTGRES_PASSWORD="pick_a_password"

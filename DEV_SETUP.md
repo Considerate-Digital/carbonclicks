@@ -28,11 +28,11 @@ VITE_DOMAIN_ADDRESS = "http://localhost:5173"
 ```
 Note that the domain address should be `http://localhost:5173` and should not be replaced by any other address.
 
-4. Create a file `postgres_test.env` in the root directory.
+4. Create a file `dev.env` in the root directory.
 
-5. Include the following environmental variables in the `postgres_test.env` file:
+5. Include the following environmental variables in the `dev.env` file:
 ```
-POSTGRES_PASSWORD="admin"
+POSTGRES_PASSWORD="pick_a_password"
 ```
 6. Run the setup shell script.
 ``` 

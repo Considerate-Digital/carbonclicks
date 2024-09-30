@@ -81,7 +81,7 @@
 			{/if}
 
 			<div class="input-description">
-					{#if import.meta.env.VITE_DOMAIN_ADDRESS == "https://analytics.considerate.digital"}
+					{#if import.meta.env.VITE_DOMAIN_ADDRESS == "https://carbonclicks.io"}
 				We do not share your details with any third parties. However, we would like to email you to provide tailored analytics reports or to share our research and news. Read more about our <a href="https://considerate.digital/terms">Terms and Privacy Policy</a>. Considerate Digital is committed to protecting all data that is given to us. 
 
 					{/if}
@@ -142,7 +142,7 @@
 				<li>
 					<p>
 						<strong>Open Source:</strong>
-						CarbonClicks is open source, licensed under the GPL3. The software is "copyleft" and free to self-host and distribute. 
+						CarbonClicks is <a href="https://github.com/Considerate-Digital/carbonclicks" target="_blank">open source</a>, licensed under the GPL3. The software is "copyleft" and free to self-host and distribute. 
 					</p>
 				</li>
 				<li>

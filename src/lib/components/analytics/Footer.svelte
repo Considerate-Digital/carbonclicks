@@ -13,10 +13,16 @@
 		</div><!--analytics-left-->
 		<div class="analytics-footer-right">
 			<div class="link-button" >
-				<a href="https://considerate.digital" target="_blank">
-					Need support?
+				<a href="https://github.com/Considerate-Digital/carbonclicks" target="_blank">
+					Source Code
 				</a>
 			</div><!--link-button-->
+			<div class="link-button" >
+				<a href="https://considerate.digital" target="_blank">
+					Support
+				</a>
+			</div><!--link-button-->
+
 		</div><!--analytics-footer-right-->
 	</nav><!--analytics-footer-menu-->
 </footer><!--analytics-footer-->
