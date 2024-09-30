@@ -15,16 +15,16 @@ vim .env
 ```
 3. Include the following environmental variables:
 ```
-VITE_DB_USER="postgres"
-VITE_DB_PASSWORD="pick_a_password"
-VITE_DB_HOST="localhost"
-VITE_DB_PORT="5432"
-VITE_MAIL_USERNAME = "youremail@yourdomain.com"
-VITE_MAIL_PASSWORD = "use_your_password"
-VITE_MAIL_FROM_ADDRESS = "youremail@yourdomain.com"
-VITE_MAIL_TO_ADDRESS = "youremail@yourdomain.com"
-VITE_MAIL_FROM_NAME = "Your Name"
-VITE_DOMAIN_ADDRESS = "http://localhost:5173"
+VITE_DB_USER=postgres
+VITE_DB_PASSWORD=pick_a_password
+VITE_DB_HOST=localhost
+VITE_DB_PORT=5432
+VITE_MAIL_USERNAME=youremail@yourdomain.com
+VITE_MAIL_PASSWORD=use_your_password
+VITE_MAIL_FROM_ADDRESS=youremail@yourdomain.com
+VITE_MAIL_TO_ADDRESS=youremail@yourdomain.com
+VITE_MAIL_FROM_NAME="Your Name"
+VITE_DOMAIN_ADDRESS=http://localhost:5173
 ```
 Note that the domain address should be `http://localhost:5173` and should not be replaced by any other address.
 
@@ -32,7 +32,7 @@ Note that the domain address should be `http://localhost:5173` and should not be
 
 5. Include the following environmental variables in the `dev.env` file:
 ```
-POSTGRES_PASSWORD="pick_a_password"
+POSTGRES_PASSWORD=pick_a_password
 ```
 6. Run the setup shell script.
 ``` 

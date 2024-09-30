@@ -97,121 +97,136 @@ onmessage = async (e) => {
   let uniqueUsersInLastFiveMins: string[] = []; // list of user ids
 
   figuresVisitsNum = data.views.length;
-
-  for (let i = 0; data.views.length > i; i++) {
-    let row = data.views[i];
-    let rowCarbon: number = await getUserCarbon(row) ?? 0;
-    totalCarbonCount += rowCarbon;
-    /* figures calculations */
-    //co2num can be replaced by totalCarbonCount
-    let uniqueView = new Boolean(Number(row.unique_view));
-    if (uniqueView == true) {
-      figuresUserNum += 1;
-    }
-
-    let rowTime = new Date(String(row.date));
-    let newRowTime = new Date(
-      rowTime.setMinutes(rowTime.getMinutes() - timeZoneOffsetMinutes),
-    );
-
-    if (newRowTime.valueOf() > fiveMinutesAgo.valueOf()) {
-      if (!uniqueUsersInLastFiveMins.includes(row.id)) {
-        uniqueUsersInLastFiveMins.push(row.id);
-        figuresRealTimeUsersNum += 1;
+  if (data.views.length > 0) { 
+    for (let i = 0; data.views.length > i; i++) {
+      let row = data.views[i];
+      let rowCarbon: number = await getUserCarbon(row) ?? 0;
+      totalCarbonCount += rowCarbon;
+      /* figures calculations */
+      //co2num can be replaced by totalCarbonCount
+      let uniqueView = new Boolean(Number(row.unique_view));
+      if (uniqueView == true) {
+        figuresUserNum += 1;
       }
-      figuresRealTimeCarbonNum += rowCarbon;
-    }
 
-    /* tops calculations */
+      let rowTime = new Date(String(row.date));
+      let newRowTime = new Date(
+        rowTime.setMinutes(rowTime.getMinutes() - timeZoneOffsetMinutes),
+      );
 
-    if (new Boolean(Number(row.unique_view)) == true) {
-      //country sorting
-      if (!countriesFound.includes(row.country)) {
-        let countryDataPoint = {
-          name: row.country,
-          users: 1,
+      if (newRowTime.valueOf() > fiveMinutesAgo.valueOf()) {
+        if (!uniqueUsersInLastFiveMins.includes(row.id)) {
+          uniqueUsersInLastFiveMins.push(row.id);
+          figuresRealTimeUsersNum += 1;
+        }
+        figuresRealTimeCarbonNum += rowCarbon;
+      }
+
+      /* tops calculations */
+
+      if (new Boolean(Number(row.unique_view)) == true) {
+        //country sorting
+        if (!countriesFound.includes(row.country)) {
+          let countryDataPoint = {
+            name: row.country,
+            users: 1,
+            carbon: rowCarbon,
+            carbon_unit: "g",
+          };
+          countriesFound.push(row.country);
+          countryArr.push(countryDataPoint);
+        } else {
+          if (countryArr.length > 0) {
+            let index = countriesFound.indexOf(row.country);
+            if (index) {
+              countryArr[index].users += 1;
+              countryArr[index].carbon += rowCarbon;
+            }
+          }
+        }
+      }
+
+      //page sorting
+      if (!pagesFound.includes(row.path)) {
+        let pageDataPoint: PageDataPoint = {
+          title: row.title,
+          path: row.path,
+          count: 1,
           carbon: rowCarbon,
+          carbon_per_load: rowCarbon,
           carbon_unit: "g",
         };
-        countriesFound.push(row.country);
-        countryArr.push(countryDataPoint);
+        pagesFound.push(row.path);
+        pageArr.push(pageDataPoint);
       } else {
-        let index = countriesFound.indexOf(row.country);
-        countryArr[index].users += 1;
-        countryArr[index].carbon += rowCarbon;
+        if (pageArr.length > 0) {
+          let index = pagesFound.indexOf(row.path);
+          if (index) {
+            pageArr[index].count += 1;
+            pageArr[index].carbon += rowCarbon;
+          }
+        }
       }
     }
 
-    //page sorting
-    if (!pagesFound.includes(row.path)) {
-      let pageDataPoint: PageDataPoint = {
-        title: row.title,
-        path: row.path,
-        count: 1,
-        carbon: rowCarbon,
-        carbon_per_load: rowCarbon,
-        carbon_unit: "g",
-      };
-      pagesFound.push(row.path);
-      pageArr.push(pageDataPoint);
-    } else {
-      let index = pagesFound.indexOf(row.path);
-      pageArr[index].count += 1;
-      pageArr[index].carbon += rowCarbon;
+    // sort the countries based on emission
+    if (countryArr.length > 0) {
+      countryArr.sort((a: CountryDataPoint, b: CountryDataPoint) => {
+        if (a.carbon < b.carbon) {
+          return 1;
+        } else if (b.carbon < a.carbon) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+
+      // use the biggest one to set the unit
+      let country_measure = set_carbon_unit(countryArr[0].carbon);
+
+      // set page arr and country arr carbon
+      for (let i = 0; countryArr.length > i; i++) {
+        let country = countryArr[i];
+        country.carbon = set_carbon_value(country_measure, country.carbon);
+        country.carbon_unit = country_measure;
+      }
+
     }
+
+    if( pageArr.length > 0) {
+      // sort the countries based on emission
+      pageArr.sort((a: PageDataPoint, b: PageDataPoint) => {
+        if (a.carbon < b.carbon) {
+          return 1;
+        } else if (b.carbon < a.carbon) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+
+      let page_measure = set_carbon_unit(pageArr[0].carbon);
+
+      // set page arr and country arr carbon
+      for (let i = 0; pageArr.length > i; i++) {
+        let page = pageArr[i];
+        page.carbon = set_carbon_value(page_measure, page.carbon);
+        page.carbon_unit = page_measure;
+      }
+    }
+    //get average session length
+    let sessionLengths = data.views.map((row: View) =>
+      Number(row.session_length),
+    );
+
+    figuresAverageSessionLength =
+      sessionLengths.reduce((a: number, b: number) => a + b) /
+      sessionLengths.length;
+
+    /* gradient */
+    PC = 100 - (totalCarbonCount / data.views.length) * 100;
   }
 
-  // sort the countries based on emission
-  countryArr.sort((a: CountryDataPoint, b: CountryDataPoint) => {
-    if (a.carbon < b.carbon) {
-      return 1;
-    } else if (b.carbon < a.carbon) {
-      return -1;
-    } else {
-      return 0;
-    }
-  });
-
-  // use the biggest one to set the unit
-  let country_measure = set_carbon_unit(countryArr[0].carbon);
-
-  // set page arr and country arr carbon
-  for (let i = 0; countryArr.length > i; i++) {
-    let country = countryArr[i];
-    country.carbon = set_carbon_value(country_measure, country.carbon);
-    country.carbon_unit = country_measure;
-  }
-
-  // sort the countries based on emission
-  pageArr.sort((a: PageDataPoint, b: PageDataPoint) => {
-    if (a.carbon < b.carbon) {
-      return 1;
-    } else if (b.carbon < a.carbon) {
-      return -1;
-    } else {
-      return 0;
-    }
-  });
-
-  let page_measure = set_carbon_unit(pageArr[0].carbon);
-
-  // set page arr and country arr carbon
-  for (let i = 0; pageArr.length > i; i++) {
-    let page = pageArr[i];
-    page.carbon = set_carbon_value(page_measure, page.carbon);
-    page.carbon_unit = page_measure;
-  }
-  //get average session length
-  let sessionLengths = data.views.map((row: View) =>
-    Number(row.session_length),
-  );
-
-  figuresAverageSessionLength =
-    sessionLengths.reduce((a: number, b: number) => a + b) /
-    sessionLengths.length;
-
-  /* gradient */
-  PC = 100 - (totalCarbonCount / data.views.length) * 100;
   let return_data = objectToBuffer({
     PC: PC,
     totalCarbonCount: totalCarbonCount,

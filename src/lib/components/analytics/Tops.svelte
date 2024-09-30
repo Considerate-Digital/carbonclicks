@@ -22,7 +22,7 @@
 
 </script>
 	
-{#if dataAvailable}
+{#if dataAvailable && countryArr.length > 0}
 <section class="tops-container">
 	<h4 class="tops-title">
 		Engagement

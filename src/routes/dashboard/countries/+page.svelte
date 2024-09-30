@@ -62,8 +62,10 @@
     //TODO type checking not working for canvas
     let canvasRef: HTMLCanvasElement | null | any = document.getElementById("canvas-ref");
     if (canvasRef) {
-    let chartItem: CanvasRenderingContext2D | null = canvasRef.getContext('2d');
-    if (chartItem) {
+      console.log("adjusting graph");
+      let chartItem: CanvasRenderingContext2D | null = canvasRef.getContext('2d');
+
+        if (chartItem) {
       chart = new ChoroplethChart(chartItem, {
         data: {
           labels: labels,
@@ -246,9 +248,7 @@
           type: 'module',
         });
        //sort out the graph options
-        if ($sorted_data.countryArr.length > 0) {
-            await sort_data_in_worker(countries_topo, $sorted_data.countryArr);
-        }
+        await sort_data_in_worker(countries_topo, $sorted_data.countryArr);
     });
 
   onMount(() => {
@@ -275,7 +275,7 @@
         </div><!--graph-text-container-->
             </header><!--graph-header-container-->
     <div class="graph-container">
-      {#if dataAvailable && mounted == true}
+      {#if dataAvailable && mounted}
         <canvas id="canvas-ref" />
       {:else}
         <Loader text={"Sketching the globe."}/>

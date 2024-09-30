@@ -184,9 +184,10 @@
             sorted_data.countryArr= data.countryArr;
             sorted_data.pageArr= data.pageArr;
             // check this
-            if (sorted_data.pageArr[0].path.startsWith("https") ) { 
+            
+            if (sorted_data.pageArr.length > 0 && sorted_data.pageArr[0].path.startsWith("https") ) { 
                 sorted_data.websiteName = sorted_data.data.views[0].url.split("https://")[1].split(".")[0].split("/")[0] 
-            } else {
+            } else if (sorted_data.data.views.length > 0 ){
                 sorted_data.websiteName = sorted_data.data.views[0].url.split(".")[0];
             };
             return finishSetup(); 
@@ -220,9 +221,9 @@
             sorted_data.countryArr= data.countryArr;
             sorted_data.pageArr= data.pageArr;
             // check this
-            if (sorted_data.pageArr[0].path.startsWith("https") ) { 
+            if (sorted_data.pageArr.length > 0 && sorted_data.pageArr[0].path.startsWith("https") ) { 
                 sorted_data.websiteName = sorted_data.data.views[0].url.split("https://")[1].split(".")[0].split("/")[0] 
-            } else {
+            } else if (sorted_data.data.views.length > 0) {
                 sorted_data.websiteName = sorted_data.data.views[0].url.split(".")[0];
             };
 
@@ -262,7 +263,7 @@
         dataAvailable = false;
         dataAvailable = dataAvailable;
         loading = true;
-        if (!sorted_data?.data?.views || !sorted_data?.data?.views.length) {return};
+        if (!data?.views || !data?.views.length) {return};
         
         console.log("adjusting time period");
         let timeAgo = new Date(new Date().toISOString());
@@ -424,7 +425,7 @@
             </div><!--name-container-->
 
 
-          {#if !$page.url.pathname.includes("login") && dataAvailable && sorted_data.figuresUserNum > 0}
+          {#if !$page.url.pathname.includes("login") && dataAvailable }
               
         <section class="time-options-container">
             <button class={"time-period-button " + button0Class} on:click={(e) => {
@@ -483,6 +484,8 @@
 		<section class="dashboard-center">
         {#if !$page.url.pathname.includes("login") && !dataAvailable }
             <Loader text={loader_text} />
+        {:else if !$page.url.pathname.includes("login") && dataAvailable && data.views.length > 0 && sorted_data?.data?.views?.length === 0}
+            <slot></slot>
         {:else if !$page.url.pathname.includes("login") && dataAvailable && sorted_data?.pageArr?.length == 0}
             {#key sorted_data.id}
             <section class="consent-container">

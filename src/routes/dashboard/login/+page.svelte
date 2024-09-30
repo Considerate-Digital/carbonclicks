@@ -166,7 +166,7 @@
 			</ul>
 		</div>
 
-			<a href="/guide/analytics" target="_blank">
+			<a href="/guide/carbon-clicks" target="_blank">
 				<button class="button--secondary">Find out more</button>
 			</a>
 		</section><!--discover-container-->

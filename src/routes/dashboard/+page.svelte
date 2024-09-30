@@ -39,7 +39,7 @@
 
 </script>
 
-{#if $sorted_data?.pageArr?.length > 0}
+{#if $sorted_data?.pageArr?.length >= 0}
     {#key $sorted_data}
     <Graph data={$sorted_data.data} timePeriodG={$sorted_data.timePeriod} />
     <!--Score PC={$sorted_data.PC} /-->

@@ -33,6 +33,7 @@ function create_date() {
   let start = new Date();
   start.setMonth(start.getMonth() - 12);
   let end = new Date();
+
   let random_date = rdg.getRandomDateInRange(start, end);
   return random_date;
 }

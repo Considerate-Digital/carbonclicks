@@ -322,6 +322,7 @@ onmessage = async (e) => {
       visitArr.push(dat.count);
       labels.push(dat.timeUnit);
     }
+  }
     let data_prep = {
       carbonArr,
       userArr,
@@ -331,6 +332,5 @@ onmessage = async (e) => {
     // convert object to buffer
     let returnData = objectToBuffer(data_prep);
     postMessage(returnData);
-  }
 };
 export {};

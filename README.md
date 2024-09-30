@@ -34,28 +34,28 @@ vim .env
 ```
 3. Include the following environmental variables:
 ```
-VITE_DB_USER="postgres"
-VITE_DB_PASSWORD="pick_a_password"
-VITE_DB_HOST="localhost"
-VITE_DB_PORT="5432"
+VITE_DB_USER=postgres
+VITE_DB_PASSWORD=pick_a_password
+VITE_DB_HOST=localhost
+VITE_DB_PORT=5432
 
 # Email environmental variables
-VITE_MAIL_USERNAME="youremail@yourdomain.com"
-VITE_MAIL_PASSWORD="use_your_password"
-VITE_MAIL_FROM_ADDRESS="youremail@yourdomain.com"
-VITE_MAIL_TO_ADDRESS="youremail@yourdomain.com"
-VITE_MAIL_FROM_NAME="Your Name"
-VITE_DOMAIN_ADDRESS="http://yourdomain.com"
+VITE_MAIL_USERNAME=youremail@yourdomain.com
+VITE_MAIL_PASSWORD=use_your_password
+VITE_MAIL_FROM_ADDRESS=youremail@yourdomain.com
+VITE_MAIL_TO_ADDRESS=youremail@yourdomain.com
+VITE_MAIL_FROM_NAME=Your Name
+VITE_DOMAIN_ADDRESS=http://yourdomain.com
 
 # Google mail environmental variables
-VITE_OAUTH_CLIENTID="your_oauth_client_id"
-VITE_OAUTH_CLIENT_SECRET="your_oauth_client_secret"
-VITE_OAUTH_REFRESH_TOKEN="your_oauth_refresh_token"
+VITE_OAUTH_CLIENTID=your_oauth_client_id
+VITE_OAUTH_CLIENT_SECRET=your_oauth_client_secret
+VITE_OAUTH_REFRESH_TOKEN=your_oauth_refresh_token
 
 # Postgres environmental variables
-POSTGRES_PASSWORD="pick_a_password"
-PGDATA="./pg/data"
-PGWAL="./pg/wal"
+POSTGRES_PASSWORD=pick_a_password
+PGDATA=./pg/data
+PGWAL=./pg/wal
 
 ```
 Note that the domain address should be the domain address where you are hosting CarbonClicks.
