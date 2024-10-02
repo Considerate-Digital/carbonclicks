@@ -7,14 +7,14 @@
 		<div class="analytics-footer-left">
 			<a href="https://considerate.digital" target="_blank" class="analytics-link">
 				<Logo />
-				Made by Considerate Digital
+				Considerate Digital
 			</a>
 			
 		</div><!--analytics-left-->
 		<div class="analytics-footer-right">
 			<div class="link-button" >
 				<a href="https://github.com/Considerate-Digital/carbonclicks" target="_blank">
-					Source Code
+					Code
 				</a>
 			</div><!--link-button-->
 			<div class="link-button" >
