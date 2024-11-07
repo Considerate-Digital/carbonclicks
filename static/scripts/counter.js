@@ -47,7 +47,7 @@
         optimised_size: 0, // optimisedSize
       };
 
-      switch (resource.t) {
+      switch (resource.type) {
         case "img":
           //get image in document
           let htmlImg = document.querySelector(`[src="${resource.u}"]`);
@@ -75,7 +75,7 @@
           break;
       }
       carbonClicks.resources.push(resource);
-      carbonClicks.totalTransfer += resource.ts;
+      carbonClicks.totalTransfer += resource.transfer_size;
     });
   });
   performanceObserver.observe({ type: "resource", buffered: true });
@@ -180,6 +180,7 @@
       dataSent = false;
     }
   });
+
   document.addEventListener("beforeunload", function () {
     if (dataSent === false) {
       carbonClicks.send_data();
@@ -302,7 +303,7 @@
     //this is when the analytics data is sent
     let data = get_data();
     let url = carbonClicks.endpoint;
-
+    console.log("carbonclicks sending data")
     fetch(url, {
       method: "POST",
       keepalive: true,

@@ -9,7 +9,6 @@ export async function handle({ event, resolve }) {
   const searchParams = event.url.searchParams;
 
   const logout = searchParams.get("logout") ?? undefined;
-
   if (path.startsWith("/dashboard")) {
     if (path.startsWith("/dashboard/login")) {
       console.log("login pathway");

@@ -7,13 +7,13 @@
 		import { onMount } from "svelte";
 
 		onMount(() => {
-			window.location.href = import.meta.env.VITE_DOMAIN_ADDRESS + "/dashboard/login";			
+			//window.location.href = import.meta.env.VITE_DOMAIN_ADDRESS + "/dashboard/login";			
 		});
 
 
 </script>
 <svelte:head>
-	<script src="{import.meta.env.VITE_DOMAIN_ADDRESS}/scripts/counter.min.js" data-carbon-clicks-id="demo" data-carbon-clicks-endpoint="{import.meta.env.VITE_DOMAIN_ADDRESS}/public/api/analytics"></script>
+	<script src="{import.meta.env.VITE_DOMAIN_ADDRESS}/scripts/counter.js" data-carbon-clicks-id="demo" data-carbon-clicks-endpoint="{import.meta.env.VITE_DOMAIN_ADDRESS}/public/api/analytics"></script>
     <title>CarbonClicks</title>
     <!--  Essential META Tags -->
 		<meta property="og:title" content="Considerate Digital: We are digital fabricators working with code." />

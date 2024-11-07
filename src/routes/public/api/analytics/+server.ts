@@ -30,8 +30,8 @@ const limiter = new RateLimiter({
 export async function POST(event) {
   const request = event.request;
 
-  console.log("analytics endpoint hit");
   let data: any = await request.json();
+  console.log("analytics endpoint hit from: " + data.url);
 
   if (await limiter.isLimited(data)) throw error(429);
   //connect to db and return 'OK' if user has been added successfully
