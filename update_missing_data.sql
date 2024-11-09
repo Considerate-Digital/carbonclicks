@@ -11,5 +11,19 @@ SELECT url, coalesce(transfer, (
         ORDER BY date DESC LIMIT 1)) AS transfer
 FROM analytics;
 
+# ignoring date and added random final option
+SELECT url, coalesce(transfer, (
+      SELECT transfer from analytics AS b
+        WHERE b.url = analytics.url and b.transfer is not null and b.transfer!=0
+        ORDER BY date DESC LIMIT 1)) AS transfer
+FROM analytics;
+
+SELECT url, coalesce(transfer, (
+      SELECT transfer from analytics AS b
+        WHERE b.url = analytics.url and b.transfer is not null and b.transfer!=0
+        ORDER BY date DESC LIMIT 1), trunc(random() * 100000 + 1000)) AS transfer
+FROM analytics;
+
+
 
 
