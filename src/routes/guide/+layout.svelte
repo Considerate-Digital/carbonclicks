@@ -204,7 +204,7 @@
 </script>
 
 <svelte:head>
-    <script src="{import.meta.env.VITE_DOMAIN_ADDRESS}/scripts/counter.js" data-carbon-clicks-id="demo" data-carbon-clicks-endpoint="{import.meta.env.VITE_DOMAIN_ADDRESS}/public/api/analytics"></script>
+    <script src="{import.meta.env.VITE_DOMAIN_ADDRESS}/scripts/counter.js" data-considerate-analytics-id="demo" data-carbon-clicks-endpoint="{import.meta.env.VITE_DOMAIN_ADDRESS}/public/api/analytics"></script>
 
     <title>CarbonClicks Guides</title>
     <meta property="og:title" content="CarbonClicks Guides">

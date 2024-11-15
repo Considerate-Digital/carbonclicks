@@ -233,10 +233,24 @@
   document.addEventListener("scroll", logScroll);
 
   // get account id from data-carbonClicks.
-  carbonClicks.accountId =
-    document
-      .querySelector("[data-carbon-clicks-id]")
-      .getAttribute("data-carbon-clicks-id") ?? "";
+  if (document.querySelector("[data-carbon-clicks-id]")) {
+    console.log("CarbonClicks: id found");
+      carbonClicks.accountId =
+        document
+          .querySelector("[data-carbon-clicks-id]")
+          .getAttribute("data-carbon-clicks-id") ?? "";
+  } else if (document.querySelector("[data-considerate-analytics-id]")) {
+    console.log("CarbonClicks: deprecated id data attribute used");
+    carbonClicks.accountId =
+        document
+          .querySelector("[data-considerate-analytics-id]")
+          .getAttribute("data-considerate-analytics-id") ?? "";
+  } else {
+    console.log("CarbonClicks: no id found");
+    carbonClicks.accountId = "";
+  }
+  console.log("CarbonClicks: id - " + carbonClicks.accountId);
+
 
   //
   // Get current path.
