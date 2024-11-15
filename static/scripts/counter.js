@@ -18,7 +18,7 @@
   };
 
   ("use strict");
-  console.log("CarbonClicks initialised");
+  console.log("CarbonClicks: initialised");
 
   let carbonClicks = {};
   //start timer -- necessary for spas -- compare with document timeline too
@@ -81,11 +81,19 @@
   performanceObserver.observe({ type: "resource", buffered: true });
 
   //set endpoint from data attribute
-  carbonClicks.endpoint =
-    document
-      .querySelector("[data-carbon-clicks-endpoint]")
-      .getAttribute("data-carbon-clicks-endpoint") ??
-    "https://carbonclicks.io/public/api/analytics";
+  if (document.querySelector("[data-carbon-clicks-endpoint]")) {
+    carbonClicks.endpoint =
+      document
+        .querySelector("[data-carbon-clicks-endpoint]")
+        .getAttribute("data-carbon-clicks-endpoint") ??
+      "https://carbonclicks.io/public/api/analytics";
+  } else {
+    console.log("CarbonClicks: data endpoint not found");
+    carbonClicks.endpoint = "https://carbonclicks.io/public/api/analytics";
+      "https://carbonclicks.io/public/api/analytics";
+  }
+
+
 
   async function generate_hash(ip) {
     let userAgent = Navigator.userAgent;
@@ -303,7 +311,7 @@
     //this is when the analytics data is sent
     let data = get_data();
     let url = carbonClicks.endpoint;
-    console.log("carbonclicks sending data")
+    console.log("CarbonClicks: sending data")
     fetch(url, {
       method: "POST",
       keepalive: true,
