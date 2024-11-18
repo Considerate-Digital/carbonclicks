@@ -106,21 +106,30 @@
     return hashHex;
   }
   let ip, city, region, country_code3;
-  await fetch("https://api.seeip.org/geoip", {
-    method: "GET",
-  })
-    .then((res) => (res.ok ? res.json() : false))
-    .then(async (res) => {
-      if (res) {
-        ip = res.ip;
-        city = res.city;
-        region = res.region;
-        country_code3 = res.country_code3;
-        carbonClicks.country = country_code3;
-        //generate hash from ip and the userAgent
-        carbonClicks.id = await generate_hash(ip);
-      }
-    });
+  try {
+    await fetch("https://api.seeip.org/geoip", {
+      method: "GET",
+    })
+      .then((res) => (res.ok ? res.json() : false))
+      .then(async (res) => {
+        if (res) {
+          ip = res.ip;
+          city = res.city;
+          region = res.region;
+          country_code3 = res.country_code3;
+          carbonClicks.country = country_code3;
+          //generate hash from ip and the userAgent
+          carbonClicks.id = await generate_hash(ip);
+        } else {
+          carbonClicks.country = "";
+          carbonClicks.id = await generate_hash("");
+        }
+      });
+  } catch (err) {
+    console.log("CarbonClicks: failed to identify IP");
+    carbonClicks.country = "";
+    carbonClicks.id = await generate_hash("");
+  }
 
   // do we need the url hash -- this is the url and the userAgent in one hash
   //carbonClicks.urlHash = await generate_hash(window.location.href);
@@ -131,15 +140,22 @@
   }
 
   // check for green hosting
-  await fetch(
-    `https://admin.thegreenwebfoundation.org/api/v3/greencheck/${domain}`,
-  )
-    .then(async (res) => (res.ok ? await res.json() : false))
-    .then((res) => {
-      if (res) {
-        carbonClicks.green = res?.green ? res.green : false;
-      }
-    });
+  try {
+    await fetch(
+      `https://admin.thegreenwebfoundation.org/api/v3/greencheck/${domain}`,
+    )
+      .then(async (res) => (res.ok ? await res.json() : false))
+      .then((res) => {
+        if (res) {
+          carbonClicks.green = res?.green ? res.green : false;
+        } else {
+          carbonClicks.green = false;
+        }
+      });
+  } catch (err) {
+    console.log("CarbonClicks: failed to check for green hosting");
+    carbonClicks.green = false;
+  }
 
   //add event function
   function addEvent(e) {
