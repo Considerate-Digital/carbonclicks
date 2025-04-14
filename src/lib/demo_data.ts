@@ -129,6 +129,7 @@ export const demo_data = async () => {
   console.log(`total views: ${view_number}`);
   let users_no = Math.round(view_number / (Math.PI * 3));
 
+  console.log(`total users: ${users_no}`);
   let url_no = users_no > 100 ? 100 : users_no;
   let urls = [];
   for (let i = 0; url_no > i; i++) {
