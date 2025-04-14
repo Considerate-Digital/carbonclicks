@@ -2,7 +2,7 @@
 
 - **Real-time Carbon Monitoring:** CarbonClicks delivers instant analytics on the carbon emissions of websites, enabling organisations to make informed decisions towards sustainability.
 - **Open Source:** CarbonClicks is open source, licensed under the FSL-1.1-MIT. The software is free to self-host and distribute under any purpose other than a Competing Use.
-- **Free:** Considerate Digital provides a free hosted version of CarbonClicks to small and medium-sized organisations with moderate web-traffic. .
+- **Free:** Considerate Digital provides a free hosted version of CarbonClicks to small and medium-sized organisations with moderate web-traffic.
 - **Privacy-Focused:** CarbonClicks ensures user privacy by abstaining from storing personally identifiable information and refraining from the use of tracking cookies.
 - **GDPR Compliant:** CarbonClicks does not retain any identifying data about users, including IP addresses. The service is designed to be GDPR compliant without the need for cookies.
 - **Demo:** Try our [demo version](https://analytics.considerate.digital/dashboard?demo=true) of CarbonClicks to experience its capabilities before integrating the service into your website.
