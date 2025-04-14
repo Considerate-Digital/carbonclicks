@@ -1,7 +1,5 @@
 # CarbonClicks
 
-FSL-1.1-MIT
-
 - **Real-time Carbon Monitoring:** CarbonClicks delivers instant analytics on the carbon emissions of websites, enabling organisations to make informed decisions towards sustainability.
 - **Open Source:** CarbonClicks is open source, licensed under the FSL-1.1-MIT. The software is free to self-host and distribute under any purpose other than a Competing Use.
 - **Free:** Considerate Digital provides a free hosted version of CarbonClicks to small and medium-sized organisations with moderate web-traffic. .
