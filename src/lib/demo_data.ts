@@ -48,7 +48,7 @@ function create_nearby_date(start: number) {
 
 async function create_url_hash(users: any[]) {
   let num = random_number(2);
-  let unique = Boolean(num) == true ? true : false;
+  let unique = num == 1 ? true : false;
   if (unique) {
     return {
       hash: await generate_hash(new String(random_number(10000)) + "text"),
