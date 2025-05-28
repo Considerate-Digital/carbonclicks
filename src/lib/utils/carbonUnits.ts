@@ -15,7 +15,7 @@ export function convertCarbonGrams(emission: number) {
   } else if (emission >= 1000) {
     return (emission / 1000).toFixed(2);
   } else {
-    return emission.toFixed(2);
+    return (emission).toFixed(2);
   }
 }
 export function set_carbon_unit(carbon: number) {

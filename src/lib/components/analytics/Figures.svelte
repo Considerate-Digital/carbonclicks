@@ -2,6 +2,7 @@
 	import Chart from 'chart.js/auto';
 	import { Line, Bar } from 'svelte-chartjs'
 	import { onMount } from 'svelte';
+	import { getCarbonUnit, convertCarbonGrams } from "$lib/utils/carbonUnits";
 
 	export let figuresUserNum = 0;
 	export let figuresVisitsNum = 0;
@@ -32,6 +33,7 @@
 			return visits;
 		}
 	}
+
 
 </script>
 {#if dataAvailable}
@@ -64,7 +66,7 @@
 					CO<sub>2</sub>e
 				</h5>
 				<p class="number">
-					{figuresCo2Num.toFixed(0)}<span class="unit">{figuresCo2NumUnit}</span>
+					{convertCarbonGrams(figuresCo2Num.toFixed(0))}<span class="unit">{getCarbonUnit(figuresCo2Num.toFixed(0))}</span>
 				</p>
 				<p class="number-detail">
 					Total website emissions.

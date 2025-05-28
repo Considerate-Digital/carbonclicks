@@ -9,6 +9,7 @@ import type {
 } from "$lib/types/dashboard";
 
 import { objectToBuffer, bufferToObject } from "$lib/utils/buffer";
+import { getCarbonUnit } from "$lib/utils/carbonUnits";
 
 async function getUserCarbon(view: View) {
   const emissions = new tgwf.co2({ model: "1byte" });
