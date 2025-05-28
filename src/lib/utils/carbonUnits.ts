@@ -10,12 +10,13 @@ export function getCarbonUnit(emission: number) {
 }
 
 export function convertCarbonGrams(emission: number) {
+  emission = Number(emission);
   if (emission >= 1000000) {
     return (emission / 1000000).toFixed(2);
   } else if (emission >= 1000) {
     return (emission / 1000).toFixed(2);
   } else {
-    return (emission).toFixed(2);
+    return Number(emission);
   }
 }
 export function set_carbon_unit(carbon: number) {
