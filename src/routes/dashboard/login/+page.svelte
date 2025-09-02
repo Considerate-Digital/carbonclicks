@@ -142,7 +142,7 @@
 				<li>
 					<p>
 						<strong>Open Source:</strong>
-						CarbonClicks is <a href="https://github.com/Considerate-Digital/carbonclicks" target="_blank">open source</a>, licensed under the GPL3. The software is "copyleft" and free to self-host and distribute. 
+						CarbonClicks is <a href="https://github.com/Considerate-Digital/carbonclicks" target="_blank">open source</a>, licensed under the FSL-1.1-MIT. The software is free to self-host and distribute under any purpose other than a Competing Use. 
 					</p>
 				</li>
 				<li>

@@ -12,7 +12,6 @@
 
 /test-log
 pnpm-lock*
-/caddy/caddy_data
 
 # test files
 /test-results
