@@ -1,0 +1,23 @@
+.DS_Store
+**/node_modules
+/node_modules
+
+/build
+
+/.svelte-kit
+
+.env
+.env.*
+*.env
+
+/test-log
+pnpm-lock*
+/caddy/caddy_data
+
+# test files
+/test-results
+/playwright-report
+
+
+# other
+push.sh
